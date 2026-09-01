@@ -57,6 +57,18 @@
                 {{ $perguntas->links() }}
             </div>
         @endif
+
+        @foreach ($perguntas as $pergunta)
+            <div class="card mb-2">
+                <div class="card-body">
+                  {{ $pergunta->texto }}
+                </div>
+            </div>
+        @endforeach
+<!-- TICKET #002: Links de navegação da paginação -->
+<div class="mt-4">
+    {{ $perguntas->links() }}
+</div>
     </div>
 </div>
 @endsection

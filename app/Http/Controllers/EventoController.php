@@ -19,8 +19,10 @@ class EventoController extends Controller
     {
         $evento = Evento::findOrFail($id);
 
-        // Refatorado: Filtra pelo evento, ordena pelas mais recentes e pagina de 10 em 10
+        # TICKET #004:
+
         $perguntas = Pergunta::where('evento_id', $evento->id)
+            ->with('user')
             ->latest()
             ->paginate(10);
 

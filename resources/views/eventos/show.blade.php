@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="row">
-    <!-- Formularço de envio de Pergunta -->
+    <!-- Formulário de envio de Pergunta -->
     <div class="col-md-5 mb-4">
         <div class="card shadow-sm p-3">
             <h4 class="fw-bold mb-3">💬 Faça sua Pergunta</h4>
@@ -28,7 +28,7 @@
         </div>
     </div>
 
-    <!-- Lista de Perguntas (TICKET #002) -->
+    <!-- Lista de Perguntas -->
     <div class="col-md-7">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h4 class="fw-bold m-0">📋 Perguntas do Evento</h4>
@@ -39,7 +39,13 @@
             <div class="card mb-3 shadow-sm border-start border-4 border-primary">
                 <div class="card-body">
                     <p class="fs-5 mb-2 text-white">{{ $pergunta->texto }}</p>
+                    
                     <div class="d-flex justify-content-between align-items-center text-secondary small">
+                        <!-- TICKET #003: Nome do Autor com Fallback seguro -->
+                        <span class="fw-semibold text-light">
+                            👤 {{ $pergunta->user->name ?? 'Anônimo' }}
+                        </span>
+
                         <span>Status: <span class="badge bg-success">{{ $pergunta->status }}</span></span>
                         <span>{{ $pergunta->created_at->format('d/m/Y H:i') }}</span>
                     </div>
@@ -51,24 +57,12 @@
             </div>
         @endforelse
 
-        <!-- TICKET #002: Renderização dos Botões de Paginação -->
+        <!-- TICKET #002 / #004: Links de navegação da paginação -->
         @if(method_exists($perguntas, 'links'))
             <div class="d-flex justify-content-center mt-4">
                 {{ $perguntas->links() }}
             </div>
         @endif
-
-        @foreach ($perguntas as $pergunta)
-            <div class="card mb-2">
-                <div class="card-body">
-                  {{ $pergunta->texto }}
-                </div>
-            </div>
-        @endforeach
-<!-- TICKET #002: Links de navegação da paginação -->
-<div class="mt-4">
-    {{ $perguntas->links() }}
-</div>
     </div>
 </div>
 @endsection

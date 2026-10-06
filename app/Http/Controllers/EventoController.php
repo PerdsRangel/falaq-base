@@ -19,11 +19,12 @@ class EventoController extends Controller
     {
         $evento = Evento::findOrFail($id);
 
-        // Ticket #006: Filtro para retornar apenas perguntas públicas
+        // Ticket #006 & #012: Filtro de público, Eager Loading, Contagem e Ordenação por Votos
         $perguntas = Pergunta::where('evento_id', $evento->id)
             ->where('is_public', true)
             ->with('user')
-            ->latest()
+            ->withCount('votos')
+            ->orderByDesc('votos_count')
             ->paginate(10);
 
         return view('eventos.show', compact('evento', 'perguntas'));

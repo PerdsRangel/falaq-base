@@ -38,9 +38,28 @@
         @forelse($perguntas as $pergunta)
             <div class="card mb-3 shadow-sm border-start border-4 border-primary">
                 <div class="card-body">
-                    <p class="fs-5 mb-2 text-white">{{ $pergunta->texto }}</p>
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <p class="fs-5 mb-0 text-white">{{ $pergunta->texto }}</p>
+                        
+                        {{-- Ticket #012: Botão e Contagem de Votos --}}
+                        @auth
+                            @php
+                                $jaVotou = $pergunta->votos()->where('user_id', auth()->id())->exists();
+                            @endphp
+                            <form action="{{ route('perguntas.votar', $pergunta) }}" method="POST" class="ms-2">
+                                @csrf
+                                <button type="submit" class="btn btn-sm {{ $jaVotou ? 'btn-primary' : 'btn-outline-primary' }} fw-bold">
+                                    👍 {{ $pergunta->votos_count }}
+                                </button>
+                            </form>
+                        @else
+                            <span class="badge bg-secondary fs-6 ms-2">
+                                👍 {{ $pergunta->votos_count }}
+                            </span>
+                        @endauth
+                    </div>
                     
-                    <div class="d-flex justify-content-between align-items-center text-secondary small">
+                    <div class="d-flex justify-content-between align-items-center text-secondary small mt-3">
                         <!-- TICKET #003: Nome do Autor com Fallback seguro -->
                         <span class="fw-semibold text-light">
                             👤 {{ $pergunta->user->name ?? 'Anônimo' }}

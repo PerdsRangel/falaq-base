@@ -6,6 +6,7 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -52,5 +53,11 @@ class User extends Authenticatable
     public function perguntas(): HasMany
     {
         return $this->hasMany(Pergunta::class);
+    }
+
+    # Ticket #010: Relacionamento N:M com as perguntas votadas
+    public function perguntasVotadas(): BelongsToMany
+    {
+        return $this->belongsToMany(Pergunta::class, 'pergunta_user')->withTimestamps();
     }
 }

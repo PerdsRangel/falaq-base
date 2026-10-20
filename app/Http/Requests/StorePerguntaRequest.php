@@ -4,10 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePerguntaRequest extends FormRequest
+class StoreModeracaoRequest extends FormRequest
 {
     /**
-     * Determina se o usuário está autorizado a fazer esta requisição.
+     * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
@@ -15,13 +15,14 @@ class StorePerguntaRequest extends FormRequest
     }
 
     /**
-     * Regras de validação para a requisição.
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'texto' => ['required', 'string', 'min:10', 'max:255'],
-            'evento_id' => ['required', 'exists:eventos,id'],
+            'motivo' => ['required', 'string', 'min:10', 'max:255'],
         ];
     }
 }
